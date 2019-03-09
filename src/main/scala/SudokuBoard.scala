@@ -65,7 +65,22 @@ class SudokuBoard(values: Array[Array[Char]]) {
 
 
   override def toString: String = {
-    "-----------" + "\n" + ""
+    val sep = "|"
+    val divider = "-------------------"
+     (divider + "\n" +
+      "|" + values(0).mkString(sep) + "|\n" +
+      "|" + values(1).mkString(sep) + "|\n" +
+      "|" + values(2).mkString(sep) + "|\n" +
+       divider + "\n" +
+      "|" + values(3).mkString(sep) + "|\n" +
+      "|" + values(4).mkString(sep) + "|\n" +
+      "|" + values(5).mkString(sep) + "|\n" +
+      divider + "\n" +
+      "|" + values(6).mkString(sep) + "|\n" +
+      "|" + values(7).mkString(sep) + "|\n" +
+      "|" + values(8).mkString(sep) + "|\n" +
+      divider
+      )
   }
 
 }
