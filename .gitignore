@@ -1,0 +1,19 @@
+# from https://gist.githubusercontent.com/owainlewis/152b4a370ca8423e1c9f/raw/b381ea57b377bf102fef4c6eb0077b8b0dec6338/.gitignore
+*.class
+*.log
+
+# sbt specific
+.cache/
+.history/
+.lib/
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+
+# Scala-IDE specific
+.scala_dependencies
+.worksheet
+.idea
