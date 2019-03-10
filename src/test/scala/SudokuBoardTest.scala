@@ -187,4 +187,22 @@ class SudokuBoardTest extends FunSuite {
     assert(board.getIndex(8, 8) == 8)
   }
 
+  test("very easy") {
+    val board = new SudokuBoard(Array(
+      "473598126".toCharArray,
+      "561432879".toCharArray,
+      "892167354".toCharArray,
+      "647385291".toCharArray,
+      "935216748".toCharArray,
+      "218749635".toCharArray,
+      "154623987".toCharArray,
+      "729851463".toCharArray,
+      "386974512".toCharArray
+    ))
+    assert(board.isCorrect)
+    board.setValue(8, 8, '0')
+    val solution = new SudokuSolver().solve(board)
+    assert(solution.isCorrect)
+  }
+
 }

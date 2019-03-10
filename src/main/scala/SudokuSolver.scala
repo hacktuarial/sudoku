@@ -1,10 +1,20 @@
-class SudokuSolver(inputBoard: SudokuBoard) {
-  //var discovered:List[SudokuBoard];
+class SudokuSolver() {
 
-  // see https://en.wikipedia.org/wiki/Depth-first_search
-  //def depthFirstSearch(board: SudokuBoard): {
-    // label board as discovered
-  //}
 
+
+  def solve(inputBoard: SudokuBoard): SudokuBoard = {
+    var discovered:Set[SudokuBoard] = Set()
+
+    // see https://en.wikipedia.org/wiki/Depth-first_search
+    def depthFirstSearch(board: SudokuBoard): SudokuBoard = {
+      // base condition: board is a complete solution
+      if (board.isCorrect) return board
+      // otherwise, mark as discovered and recurse
+      discovered += board
+      board.generateCandidates().filter(x => !(discovered contains x)).map(depthFirstSearch _)
+    }
+
+    depthFirstSearch(inputBoard)
+  }
 
 }
