@@ -1,7 +1,4 @@
-/*
-
-
- */
+import scala.util.control.Breaks._
 
 
 class SudokuBoard(values: Array[Array[Char]]) {
@@ -15,14 +12,14 @@ class SudokuBoard(values: Array[Array[Char]]) {
 
   def partialVerify: Boolean = false
 
-  def checkCorrect: Boolean = {
+  def isCorrect: Boolean = {
     for {
       i <- start until end
     } if (!checkRow(i) || !checkColumn(i) || !checkSquare(i)) return false
     true
   }
 
-  def checkComplete: Boolean = {
+  def isComplete: Boolean = {
     // check for NULLs
     for {
       i <- start until end
@@ -31,38 +28,76 @@ class SudokuBoard(values: Array[Array[Char]]) {
     true
   }
 
+  def getValue(row: Integer, col: Integer): Char = values(row)(col)
+  def getRow(index: Integer): Set[Char] = values(index).toSet
+  def getCol(index: Integer): Set[Char] = {
+    var columnValues: Set[Char] = Set()
+    for {
+      i <- start until end
+    } columnValues += values(i)(index)
+    return columnValues
+  }
+
+  def getIndex(row: Integer, col: Integer): Integer = {
+    3 * (row / 3) + (col / 3)
+  }
+
+  def getSquare(row: Integer, col: Integer): Set[Char] = {
+    getSquare(getIndex(row, col))
+  }
+
+  def getSquare(index: Integer): Set[Char] = {
+    /* each square is 3x3
+     square indexes are
+     0  1  2
+     3  4  5
+     6  7  8
+     */
+    val firstRow = 3 * (index / 3) // integer division
+    val firstCol = 3 * (index % 3)
+
+    values(firstRow + 0).slice(firstCol, firstCol+3).toSet |
+    values(firstRow + 1).slice(firstCol, firstCol+3).toSet |
+    values(firstRow + 2).slice(firstCol, firstCol+3).toSet
+  }
+
+  def checkSquare(index: Integer): Boolean = {
+    getSquare(index) == one_through_nine
+  }
+
   def checkRow(index: Integer): Boolean = {
-    values(index).toSet == one_through_nine;
+    getRow(index) == one_through_nine;
   }
 
   def checkColumn(index: Integer): Boolean = {
     // would it be easier to write a transpose method?
-    var columnValues = Set(' ') - ' '; // how to initialize empty set??
+    getCol(index) == one_through_nine
+  }
+
+  def setValue(row: Integer, col: Integer, value: Char): SudokuBoard = {
+    // modify a particular value of this board, return itself
+    require(row >= start && row < end, "invalid row index")
+    require(col >= start && col < end, "invalid column index")
+    // handy to remove an element of a board for unit testing
+    require((one_through_nine + missing) contains value, "invalid value")
+    values(row)(col) = value
+    this
+  }
+
+  def generateCandidates(): Set[SudokuBoard] = {
+    // find the first missing value, generate possible boards
+    var i, j = 0; // set scope to use outside of for loop
     for {
       i <- start until end
-    } columnValues += values(i)(index)
-    columnValues == one_through_nine
+      j <- start until end
+    } if (values(i)(j) == missing) {
+      // find all possible values based on row, column, square constraints
+      val alreadyUsed = getRow(i) | getCol(j) | getSquare(i, j) - missing
+      val candidateValues = one_through_nine diff alreadyUsed
+      return candidateValues.map(value => new SudokuBoard(this.values).setValue(i, j, value))
+    } // else, keep looping
+    Set()
   }
-
-  def checkSquare(index: Integer): Boolean = {
-    /* each square is 3x3
-    square indexes are
-    0  1  2
-    3  4  5
-    6  7  8
-    */
-
-    val firstRow = 3 * (index / 3) // integer division
-    val firstCol = 3 * (index % 3)
-
-    val squareValues = (
-      values(firstRow + 0).slice(firstCol, firstCol+3).toSet |
-      values(firstRow + 1).slice(firstCol, firstCol+3).toSet |
-      values(firstRow + 2).slice(firstCol, firstCol+3).toSet
-      )
-    squareValues == one_through_nine
-  }
-
 
   override def toString: String = {
     val sep = "|"
