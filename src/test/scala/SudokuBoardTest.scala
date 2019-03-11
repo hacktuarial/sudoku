@@ -66,8 +66,9 @@ class SudokuBoardTest extends FunSuite {
       "000000000".toCharArray,
     ))
 
-    board.setValue(0, 0, '3')
-    assert(board.getValue(0, 0) == '3')
+    val newBoard = board.setValue(0, 0, '3')
+    assert(newBoard.getValue(0, 0) == '3')
+    assert(board.getValue(0, 0) == '0')
   }
 
   test("generate candidates") {
@@ -83,10 +84,11 @@ class SudokuBoardTest extends FunSuite {
       "386974512".toCharArray
     ))
     assert(board.isCorrect)
-    board.setValue(8, 8, '0')
-    assert(!board.isComplete)
-    assert(!board.isCorrect)
-    val candidates = board.generateCandidates()
+    val newBoard = board.setValue(8, 8, '0')
+    assert(board.isCorrect)
+    assert(!newBoard.isComplete)
+    assert(!newBoard.isCorrect)
+    val candidates = newBoard.generateCandidates()
     assert(candidates.size == 1)
   }
 
@@ -187,7 +189,7 @@ class SudokuBoardTest extends FunSuite {
     assert(board.getIndex(8, 8) == 8)
   }
 
-  test("very easy") {
+  test("trivial solution") {
     val board = new SudokuBoard(Array(
       "473598126".toCharArray,
       "561432879".toCharArray,
@@ -200,9 +202,63 @@ class SudokuBoardTest extends FunSuite {
       "386974512".toCharArray
     ))
     assert(board.isCorrect)
-    board.setValue(8, 8, '0')
-    val solution = new SudokuSolver().solve(board)
+    val newBoard = board.setValue(8, 8, '0')
+    val solution = new SudokuSolver().solve(newBoard)
     assert(solution.isCorrect)
   }
 
+  test("easy solution") {
+    val board = new SudokuBoard(Array(
+      "020043001".toCharArray,
+      "600700020".toCharArray,
+      "309000745".toCharArray,
+      "904087210".toCharArray,
+      "000500078".toCharArray,
+      "003026094".toCharArray,
+      "790431600".toCharArray,
+      "210800030".toCharArray,
+      "036005009".toCharArray
+    ))
+
+    val solution = new SudokuSolver().solve(board)
+    assert(solution.isComplete)
+    assert(solution.isCorrect)
+  }
+
+  /* GC overhead limit exceeded
+  test("extreme") {
+    val board = new SudokuBoard(Array(
+      "070036000".toCharArray,
+      "000000510".toCharArray,
+      "000009000".toCharArray,
+      "000800000".toCharArray,
+      "904000000".toCharArray,
+      "300500020".toCharArray,
+      "000000006".toCharArray,
+      "000000903".toCharArray,
+      "028000000".toCharArray
+    ))
+    val solution = new SudokuSolver().solve(board)
+    assert(solution.isComplete)
+    assert(solution.isCorrect)
+  }
+  */
+
+  test("hard") {
+    val board = new SudokuBoard(Array(
+      "700608400".toCharArray,
+      "000430200".toCharArray,
+      "001000850".toCharArray,
+      "450000038".toCharArray,
+      "000005000".toCharArray,
+      "000093005".toCharArray,
+      "600000080".toCharArray,
+      "003700091".toCharArray,
+      "095000000".toCharArray
+    ))
+    val solution = new SudokuSolver().solve(board)
+    assert(solution.isComplete)
+    assert(solution.isCorrect)
+
+  }
 }
