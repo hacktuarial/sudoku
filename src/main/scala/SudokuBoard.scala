@@ -40,9 +40,9 @@ class SudokuBoard(values: Array[Array[Char]]) {
     val firstRow = 3 * (index / 3) // integer division
     val firstCol = 3 * (index % 3)
 
-    values(firstRow + 0).slice(firstCol, firstCol+3).toSet union
-    values(firstRow + 1).slice(firstCol, firstCol+3).toSet union
-    values(firstRow + 2).slice(firstCol, firstCol+3).toSet
+    (List(0, 1, 2)
+      .map(i => values(firstRow + i).slice(firstCol, firstCol + 3).toSet)
+      .reduce((x, y) => x union y))
   }
 
   def checkSquare(index: Integer): Boolean = getSquare(index) == one_through_nine
@@ -56,14 +56,13 @@ class SudokuBoard(values: Array[Array[Char]]) {
     // handy to remove an element of a board for unit testing
     require((one_through_nine + missing) contains value, "invalid value")
 
-    val newValues = values.map(_.clone()).clone()
+    val newValues = values.map(_.clone())
     newValues(row)(col) = value
     return new SudokuBoard(newValues)
   }
 
   def generateCandidates(): Set[SudokuBoard] = {
     // find the first missing value, generate possible boards
-    //var i, j = 0; // set scope to use outside of for loop
     for {
       i <- start until end
       j <- start until end
@@ -76,7 +75,6 @@ class SudokuBoard(values: Array[Array[Char]]) {
     Set()
   }
 
-  override def clone(): SudokuBoard = new SudokuBoard(values)
 
   override def toString: String = {
     val sep = "|"
