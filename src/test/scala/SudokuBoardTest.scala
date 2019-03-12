@@ -5,6 +5,24 @@ import org.scalatest.FunSuite
 
 class SudokuBoardTest extends FunSuite {
 
+  test("set is unique") {
+    val vals = Array(
+      "473598126".toCharArray,
+      "561432879".toCharArray,
+      "892167354".toCharArray,
+      "647385291".toCharArray,
+      "935216748".toCharArray,
+      "218749635".toCharArray,
+      "154623987".toCharArray,
+      "729851463".toCharArray,
+      "386974512".toCharArray
+    )
+    val board1 = new SudokuBoard(vals)
+    val board2 = new SudokuBoard(vals)
+    val set = Set(board1, board2)
+    assert(set.size == 1)
+  }
+
   test("complete board") {
     // based on https://kjell.haxx.se/sudoku/
     val board = new SudokuBoard(Array(
@@ -225,7 +243,7 @@ class SudokuBoardTest extends FunSuite {
     assert(solution.isCorrect)
   }
 
-  /* GC overhead limit exceeded
+  // GC overhead limit exceeded
   test("extreme") {
     val board = new SudokuBoard(Array(
       "070036000".toCharArray,
@@ -242,7 +260,6 @@ class SudokuBoardTest extends FunSuite {
     assert(solution.isComplete)
     assert(solution.isCorrect)
   }
-  */
 
   test("hard") {
     val board = new SudokuBoard(Array(

@@ -1,3 +1,4 @@
+import scala.util.hashing.MurmurHash3
 
 class SudokuBoard(values: Array[Array[Char]]) {
   require(values forall (_.length == 9), "sudoku board must be 9x9")
@@ -8,11 +9,30 @@ class SudokuBoard(values: Array[Array[Char]]) {
   private val start = 0;
   private val end = 9;
 
+  // methods to test for equality
+  // see https://alvinalexander.com/scala/how-to-define-equals-hashcode-methods-in-scala-object-equality
+  def canEqual(a: Any): Boolean = a.isInstanceOf[SudokuBoard]
+  override def equals(that: Any): Boolean =
+    that match {
+      case that: SudokuBoard => that.canEqual(this) && this.hashCode == that.hashCode
+      case _ => false
+  }
+  override def hashCode(): Int = {
+    val seed = 32079
+    return MurmurHash3.arrayHash(values.flatten, seed)
+  }
+
   def isCorrect: Boolean = {
     for {
       i <- start until end
     } if (!checkRow(i) || !checkColumn(i) || !checkSquare(i)) return false
     true
+  }
+
+  def == (other: SudokuBoard): Boolean = {
+    //(start to (end -1)).map(this.getRow(_) == other.getRow(_)).reduce((x, y) => x && y)
+    false
+
   }
 
   def isComplete: Boolean = {
