@@ -25,14 +25,9 @@ class SudokuBoard(values: Array[Array[Char]]) {
   def isCorrect: Boolean = {
     for {
       i <- start until end
+      // if any checks fail, return immediately
     } if (!checkRow(i) || !checkColumn(i) || !checkSquare(i)) return false
     true
-  }
-
-  def == (other: SudokuBoard): Boolean = {
-    //(start to (end -1)).map(this.getRow(_) == other.getRow(_)).reduce((x, y) => x && y)
-    false
-
   }
 
   def isComplete: Boolean = {
@@ -49,7 +44,6 @@ class SudokuBoard(values: Array[Array[Char]]) {
   def getCol(index: Integer): Set[Char] = values.map(_(index)).toSet
   def getIndex(row: Integer, col: Integer): Integer = 3 * (row / 3) + (col / 3)
   def getSquare(row: Integer, col: Integer): Set[Char] = getSquare(getIndex(row, col))
-
   def getSquare(index: Integer): Set[Char] = {
     /* each square is 3x3
      square indexes are
@@ -60,7 +54,7 @@ class SudokuBoard(values: Array[Array[Char]]) {
     val firstRow = 3 * (index / 3) // integer division
     val firstCol = 3 * (index % 3)
 
-    (List(0, 1, 2)
+    ((0 to 2)
       .map(i => values(firstRow + i).slice(firstCol, firstCol + 3).toSet)
       .reduce((x, y) => x union y))
   }
@@ -78,7 +72,7 @@ class SudokuBoard(values: Array[Array[Char]]) {
 
     val newValues = values.map(_.clone())
     newValues(row)(col) = value
-    return new SudokuBoard(newValues)
+    new SudokuBoard(newValues)
   }
 
   def generateCandidates(): Set[SudokuBoard] = {
