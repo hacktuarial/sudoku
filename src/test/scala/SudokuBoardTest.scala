@@ -6,16 +6,16 @@ import org.scalatest.FunSuite
 class SudokuBoardTest extends FunSuite {
 
   test("set is unique") {
-    val vals = Array(
-      "473598126".toCharArray,
-      "561432879".toCharArray,
-      "892167354".toCharArray,
-      "647385291".toCharArray,
-      "935216748".toCharArray,
-      "218749635".toCharArray,
-      "154623987".toCharArray,
-      "729851463".toCharArray,
-      "386974512".toCharArray
+    val vals = List(
+      "473598126".toList,
+      "561432879".toList,
+      "892167354".toList,
+      "647385291".toList,
+      "935216748".toList,
+      "218749635".toList,
+      "154623987".toList,
+      "729851463".toList,
+      "386974512".toList
     )
     val board1 = new SudokuBoard(vals)
     val board2 = new SudokuBoard(vals)
@@ -25,63 +25,63 @@ class SudokuBoardTest extends FunSuite {
 
   test("complete board") {
     // based on https://kjell.haxx.se/sudoku/
-    val board = new SudokuBoard(Array(
-      "473598126".toCharArray,
-      "561432879".toCharArray,
-      "892167354".toCharArray,
-      "647385291".toCharArray,
-      "935216748".toCharArray,
-      "218749635".toCharArray,
-      "154623987".toCharArray,
-      "729851463".toCharArray,
-      "386974512".toCharArray
+    val board = new SudokuBoard(List(
+      "473598126".toList,
+      "561432879".toList,
+      "892167354".toList,
+      "647385291".toList,
+      "935216748".toList,
+      "218749635".toList,
+      "154623987".toList,
+      "729851463".toList,
+      "386974512".toList
     ))
     assert(board.isComplete)
     assert(board.isCorrect)
   }
 
   test("incomplete board") {
-    val board = new SudokuBoard(Array(
-      "473598126".toCharArray,
-      "501432079".toCharArray,
-      "892167354".toCharArray,
-      "647385291".toCharArray,
-      "930216748".toCharArray,
-      "218749635".toCharArray,
-      "154623987".toCharArray,
-      "729851463".toCharArray,
-      "386974510".toCharArray
+    val board = new SudokuBoard(List(
+      "473598126".toList,
+      "501432079".toList,
+      "892167354".toList,
+      "647385291".toList,
+      "930216748".toList,
+      "218749635".toList,
+      "154623987".toList,
+      "729851463".toList,
+      "386974510".toList
     ))
     assert(!board.isComplete)
   }
 
   test("bad board") {
-    val board = new SudokuBoard(Array(
-      "173598126".toCharArray,
-      "561432879".toCharArray,
-      "892167354".toCharArray,
-      "647385291".toCharArray,
-      "935216748".toCharArray,
-      "218749635".toCharArray,
-      "154623987".toCharArray,
-      "729851463".toCharArray,
-      "386974512".toCharArray
+    val board = new SudokuBoard(List(
+      "173598126".toList,
+      "561432879".toList,
+      "892167354".toList,
+      "647385291".toList,
+      "935216748".toList,
+      "218749635".toList,
+      "154623987".toList,
+      "729851463".toList,
+      "386974512".toList
     ))
 
     assert(!board.isCorrect)
   }
 
   test("test set value") {
-    val board = new SudokuBoard(Array(
-      "000000000".toCharArray,
-      "000000000".toCharArray,
-      "000000000".toCharArray,
-      "000000000".toCharArray,
-      "000000000".toCharArray,
-      "000000000".toCharArray,
-      "000000000".toCharArray,
-      "000000000".toCharArray,
-      "000000000".toCharArray,
+    val board = new SudokuBoard(List(
+      "000000000".toList,
+      "000000000".toList,
+      "000000000".toList,
+      "000000000".toList,
+      "000000000".toList,
+      "000000000".toList,
+      "000000000".toList,
+      "000000000".toList,
+      "000000000".toList,
     ))
 
     val newBoard = board.setValue(0, 0, '3')
@@ -90,16 +90,16 @@ class SudokuBoardTest extends FunSuite {
   }
 
   test("generate candidates") {
-    val board = new SudokuBoard(Array(
-      "473598126".toCharArray,
-      "561432879".toCharArray,
-      "892167354".toCharArray,
-      "647385291".toCharArray,
-      "935216748".toCharArray,
-      "218749635".toCharArray,
-      "154623987".toCharArray,
-      "729851463".toCharArray,
-      "386974512".toCharArray
+    val board = new SudokuBoard(List(
+      "473598126".toList,
+      "561432879".toList,
+      "892167354".toList,
+      "647385291".toList,
+      "935216748".toList,
+      "218749635".toList,
+      "154623987".toList,
+      "729851463".toList,
+      "386974512".toList
     ))
     assert(board.isCorrect)
     val newBoard = board.setValue(8, 8, '0')
@@ -111,16 +111,16 @@ class SudokuBoardTest extends FunSuite {
   }
 
   test("test index") {
-    val board = new SudokuBoard(Array(
-      "000000000".toCharArray,
-      "000000000".toCharArray,
-      "000000000".toCharArray,
-      "000000000".toCharArray,
-      "000000000".toCharArray,
-      "000000000".toCharArray,
-      "000000000".toCharArray,
-      "000000000".toCharArray,
-      "000000000".toCharArray,
+    val board = new SudokuBoard(List(
+      "000000000".toList,
+      "000000000".toList,
+      "000000000".toList,
+      "000000000".toList,
+      "000000000".toList,
+      "000000000".toList,
+      "000000000".toList,
+      "000000000".toList,
+      "000000000".toList,
     ))
     assert(board.getIndex(0, 0) == 0)
     assert(board.getIndex(0, 1) == 0)
@@ -208,16 +208,16 @@ class SudokuBoardTest extends FunSuite {
   }
 
   test("trivial solution") {
-    val board = new SudokuBoard(Array(
-      "473598126".toCharArray,
-      "561432879".toCharArray,
-      "892167354".toCharArray,
-      "647385291".toCharArray,
-      "935216748".toCharArray,
-      "218749635".toCharArray,
-      "154623987".toCharArray,
-      "729851463".toCharArray,
-      "386974512".toCharArray
+    val board = new SudokuBoard(List(
+      "473598126".toList,
+      "561432879".toList,
+      "892167354".toList,
+      "647385291".toList,
+      "935216748".toList,
+      "218749635".toList,
+      "154623987".toList,
+      "729851463".toList,
+      "386974512".toList
     ))
     assert(board.isCorrect)
     val newBoard = board.setValue(8, 8, '0')
@@ -226,16 +226,16 @@ class SudokuBoardTest extends FunSuite {
   }
 
   test("easy solution") {
-    val board = new SudokuBoard(Array(
-      "020043001".toCharArray,
-      "600700020".toCharArray,
-      "309000745".toCharArray,
-      "904087210".toCharArray,
-      "000500078".toCharArray,
-      "003026094".toCharArray,
-      "790431600".toCharArray,
-      "210800030".toCharArray,
-      "036005009".toCharArray
+    val board = new SudokuBoard(List(
+      "020043001".toList,
+      "600700020".toList,
+      "309000745".toList,
+      "904087210".toList,
+      "000500078".toList,
+      "003026094".toList,
+      "790431600".toList,
+      "210800030".toList,
+      "036005009".toList
     ))
 
     val solution = new SudokuSolver().solve(board)
@@ -245,16 +245,16 @@ class SudokuBoardTest extends FunSuite {
 
   // GC overhead limit exceeded
   test("extreme") {
-    val board = new SudokuBoard(Array(
-      "070036000".toCharArray,
-      "000000510".toCharArray,
-      "000009000".toCharArray,
-      "000800000".toCharArray,
-      "904000000".toCharArray,
-      "300500020".toCharArray,
-      "000000006".toCharArray,
-      "000000903".toCharArray,
-      "028000000".toCharArray
+    val board = new SudokuBoard(List(
+      "070036000".toList,
+      "000000510".toList,
+      "000009000".toList,
+      "000800000".toList,
+      "904000000".toList,
+      "300500020".toList,
+      "000000006".toList,
+      "000000903".toList,
+      "028000000".toList
     ))
     val solution = new SudokuSolver().solve(board)
     assert(solution.isComplete)
@@ -262,16 +262,16 @@ class SudokuBoardTest extends FunSuite {
   }
 
   test("hard") {
-    val board = new SudokuBoard(Array(
-      "700608400".toCharArray,
-      "000430200".toCharArray,
-      "001000850".toCharArray,
-      "450000038".toCharArray,
-      "000005000".toCharArray,
-      "000093005".toCharArray,
-      "600000080".toCharArray,
-      "003700091".toCharArray,
-      "095000000".toCharArray
+    val board = new SudokuBoard(List(
+      "700608400".toList,
+      "000430200".toList,
+      "001000850".toList,
+      "450000038".toList,
+      "000005000".toList,
+      "000093005".toList,
+      "600000080".toList,
+      "003700091".toList,
+      "095000000".toList
     ))
     val solution = new SudokuSolver().solve(board)
     assert(solution.isComplete)

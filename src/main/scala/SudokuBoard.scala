@@ -1,6 +1,6 @@
 import scala.util.hashing.MurmurHash3
 
-class SudokuBoard(values: Array[Array[Char]]) {
+class SudokuBoard(values: List[List[Char]]) {
   require(values forall (_.length == 9), "sudoku board must be 9x9")
 
   private val one_through_nine = Set('1', '2', '3', '4', '5', '6', '7', '8', '9')
@@ -19,7 +19,7 @@ class SudokuBoard(values: Array[Array[Char]]) {
   }
   override def hashCode(): Int = {
     val seed = 32079
-    return MurmurHash3.arrayHash(values.flatten, seed)
+    return MurmurHash3.listHash(values.flatten, seed)
   }
 
   def isCorrect: Boolean = {
@@ -69,9 +69,8 @@ class SudokuBoard(values: Array[Array[Char]]) {
     require(col >= start && col < end, "invalid column index")
     // handy to remove an element of a board for unit testing
     require((one_through_nine + missing) contains value, "invalid value")
-
-    val newValues = values.map(_.clone())
-    newValues(row)(col) = value
+    
+    val newValues = values.updated(row, values(row).updated(col, value))
     new SudokuBoard(newValues)
   }
 
