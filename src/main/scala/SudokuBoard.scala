@@ -1,7 +1,7 @@
 import scala.util.hashing.MurmurHash3
 
 class SudokuBoard(values: List[List[Char]]) {
-  private val allowedSizes = Set(4, 9) // todo: add 25
+  private val allowedSizes = Set(4, 9) // todo: add 16, 25
   private val size = values.length
   private val sqrtSize: Int = math.sqrt(size).toInt
 
