@@ -276,6 +276,22 @@ class SudokuBoardTest extends FunSuite {
     val solution = new SudokuSolver().solve(board)
     assert(solution.isComplete)
     assert(solution.isCorrect)
+  }
 
+  test("another hard one") {
+    val board = new SudokuBoard(List(
+      "800000000".toList,
+      "003600000".toList,
+      "070090200".toList,
+      "050007000".toList,
+      "000045700".toList,
+      "000100030".toList,
+      "001000068".toList,
+      "008500010".toList,
+      "090000400".toList
+    ))
+    val solution = new SudokuSolver().solve(board)
+    assert(solution.isComplete)
+    assert(solution.isCorrect)
   }
 }
