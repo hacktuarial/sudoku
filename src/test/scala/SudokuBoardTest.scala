@@ -5,6 +5,30 @@ import org.scalatest.FunSuite
 
 class SudokuBoardTest extends FunSuite {
 
+  test("check 4x4") {
+    val vals = List(
+      "1234".toList,
+      "4123".toList,
+      "3412".toList,
+      "2341".toList
+    )
+    val board = new SudokuBoard(vals)
+    assert(board.isComplete)
+  }
+
+  test("solve 4x4") {
+    // from http://sudopedia.enjoysudoku.com/Shi_Doku.html
+    val vals = List(
+      "0000".toList,
+      "0001".toList,
+      "0102".toList,
+      "3000".toList
+    )
+    val board = new SudokuBoard(vals)
+    val solution = new SudokuSolver().solve(board)
+    assert(solution.isComplete)
+  }
+
   test("set is unique") {
     val vals = List(
       "473598126".toList,
